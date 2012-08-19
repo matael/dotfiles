@@ -1,0 +1,218 @@
+####################
+#   Main structs   #
+####################
+# loop()
+snippet loop
+	loop()
+	{
+	 	${1}
+	}
+# setup()
+snippet setup
+	setup()
+	{
+	 	${1}
+	}
+#####################
+#    Digital I/O    #
+#####################
+# pinMode()
+snippet pinM
+	pinMode(${1:/* pin */}, ${2:OUTPUT});${3}
+# digitalWrite()
+snippet diW
+	digitalWrite(${1:/* pin */}, ${2:HIGH});${3}
+# digitalRead()
+snippet diR
+	digitalRead(${1:/* pin */});${3}		
+
+#####################
+#     Analog I/O    #
+#####################
+# analogReference()
+snippet anRef
+	analogReference(${1:/* ref */});${2}
+# analogRead()
+snippet anR
+	analogRead(${1:/* pin */});${2}
+# analogWrite()
+snippet anW
+	analogWrite(${1:/* pin */}, ${2:/* value */});${3}
+
+#####################
+#   Advanced I/O    #
+#####################
+# tone()
+snippet tone
+	tone(${1:/* pin */}, ${2:/* Frequency */});${3}
+# noTone()
+snippet noTone
+	noTone(${1:/* pin */});${2}
+# shiftOut()
+snippet shiftO
+	shiftOut(${1:/* data pin */}, ${2:/* clockPin */}, ${3:/* bit order */}, ${4:/* value */});${5}
+# shiftIn()
+snippet shiftI
+	shiftIn(${1:/* data pin */}, ${2:/* clockPin */}, ${3:/* bit order */});${4}
+# pulseIn()
+snippet pulI
+	pulseIn(${1:/* pin */}, ${2:/* value */});${3}
+
+#######################
+#       Timing        #
+#######################
+# delay()
+snippet delay
+	delay(${1});${2}
+# delayMicroseconds()
+snippet delayMS
+	delayMicroseconds(${1});${2}
+
+######################
+#   Bits and Bytes   #
+######################
+# lowByte()
+snippet lowB
+	lowByte(${1});${2}
+# highByte()
+snippet highB
+	highByte(${1});${2}
+# bitRead()
+snippet bR
+	bitRead(${1:/* number */}, ${2:/* bit to read */});${3}
+# bitWrite()
+snippet bW
+	bitWrite(${1:/* number */}, ${2:/* bit to write */}, ${3:/* value */});${4}
+# bitSet()
+snippet bS
+	bitSet(${1:/* number */}, ${2:/* bit to set */});${3}
+# bitClear()
+snippet bC
+	bitClear(${1:/* number */}, ${2:/* bit to clear */});${3}
+
+#######################
+# External Interrupts #
+#######################
+# attachInterrupt()
+snippet aInter
+	attachInterrupt(${1:/* interrupt */}, ${2:/* function */}, ${3:/* mode */});${4}
+# detachInterrupt()
+snippet dInter
+	detachInterrupt(${1:/* interrupt */});${2}
+	
+#######################
+#     C  snippets     #
+#######################
+
+# Note : This part comes from the classic snipMate installation
+#	(c.snippets). I've just deleted the printf and fprintf snippets
+# 	which are not useful with arduino.
+
+# #include <...>
+snippet inc
+	#include <${1:stdio}.h>${2}
+# #include "..."
+snippet Inc
+	#include "${1:`Filename("$1.h")`}"${2}
+# #ifndef ... #define ... #endif
+snippet Def
+	#ifndef $1
+	#define ${1:SYMBOL} ${2:value}
+	#endif${3}
+snippet def
+	#define 
+snippet ifdef
+	#ifdef ${1:FOO}
+		${2:#define }
+	#endif
+snippet #if
+	#if ${1:FOO}
+		${2}
+	#endif
+# Header Include-Guard
+# (the randomizer code is taken directly from TextMate; it could probably be
+# cleaner, I don't know how to do it in vim script)
+snippet once
+	#ifndef ${1:`toupper(Filename('', 'UNTITLED').'_'.system("/usr/bin/ruby -e 'print (rand * 2821109907455).round.to_s(36)'"))`}
+
+	#define $1
+
+	${2}
+
+	#endif /* end of include guard: $1 */
+# If Condition
+snippet if
+	if (${1:/* condition */}) {
+		${2:/* code */}
+	}
+snippet el
+	else {
+		${1}
+	}
+# Tertiary conditional
+snippet t
+	${1:/* condition */} ? ${2:a} : ${3:b}
+# Do While Loop
+snippet do
+	do {
+		${2:/* code */}
+	} while (${1:/* condition */});
+# While Loop
+snippet wh
+	while (${1:/* condition */}) {
+		${2:/* code */}
+	}
+# For Loop
+snippet for
+	for (${2:i} = 0; $2 < ${1:count}; $2${3:++}) {
+		${4:/* code */}
+	}
+# Custom For Loop
+snippet forr
+	for (${1:i} = ${2:0}; ${3:$1 < 10}; $1${4:++}) {
+		${5:/* code */}
+	}
+# Function
+snippet fun
+	${1:void} ${2:function_name}(${3})
+	{
+		${4:/* code */}
+	}
+# Function Declaration
+snippet fund
+	${1:void} ${2:function_name}(${3});${4}
+# Typedef
+snippet td
+	typedef ${1:int} ${2:MyCustomType};${3}
+# Struct
+snippet st
+	struct ${1:`Filename('$1_t', 'name')`} {
+		${2:/* data */}
+	}${3: /* optional variable list */};${4}
+# Typedef struct
+snippet tds
+	typedef struct ${2:_$1 }{
+		${3:/* data */}
+	} ${1:`Filename('$1_t', 'name')`};
+# Typdef enum
+snippet tde
+	typedef enum {
+		${1:/* data */}
+	} ${2:foo};
+snippet .
+	[${1}]${2}
+snippet un
+	unsigned
+# switch
+snippet swit
+	switch(${1:/* Variable */})
+	{
+	    ${2:/* code */}
+	}
+
+# case
+snippet cas
+	case ${1:/* condition */}:
+	    ${2:/* code */}
+	
+# vim: sw=4 ts=4 autoindent number
