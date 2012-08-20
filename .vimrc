@@ -50,6 +50,7 @@ set ts=4 					" tabs
 set sw=4 					" tabs
 set autoindent 				" indentation
 set smartindent				" .... intelligente
+set textwidth=120 			" 120chars width
 set laststatus=2
 " default colorscheme, but dark line num
 hi LineNr ctermfg=0
@@ -88,9 +89,6 @@ au BufNewFile,BufRead *.mkd setf mkd
 " """"""""""""""""""
 "
 let g:syntastic_check_on_open=1
-hi SignColumn guifg=#00aaff guibg=NONE guisp=NONE gui=NONE ctermfg=39 ctermbg=NONE cterm=NONE
-hi Error guifg=#ffffcd guibg=#ff0000 guisp=#306b8f gui=NONE ctermfg=230 ctermbg=196 cterm=NONE
-hi Todo guifg=#ffffcd guibg=#306b8f guisp=#306b8f gui=NONE ctermfg=230 ctermbg=24 cterm=NONE
 
 " FocusMode
 " """""""""
@@ -151,3 +149,9 @@ inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
 
+" Colors
+" """"""
+
+hi SignColumn guifg=#00aaff guibg=NONE guisp=NONE gui=NONE ctermfg=39 ctermbg=NONE cterm=NONE
+hi Error guifg=#ffffcd guibg=#ff0000 guisp=#306b8f gui=NONE ctermfg=230 ctermbg=196 cterm=NONE
+hi Todo guifg=#ffffcd guibg=#306b8f guisp=#306b8f gui=NONE ctermfg=230 ctermbg=24 cterm=NONE
