@@ -23,6 +23,7 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'msanders/snipmate.vim'
 " powerline
 Bundle "Lokaltog/vim-powerline"
+call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
 "" tcomment
 Bundle 'tomtom/tcomment_vim'
 " vim-notes
@@ -37,6 +38,8 @@ Bundle 'git://git.wincent.com/command-t.git'
 Bundle 'scrooloose/syntastic'
 " vim surround
 Bundle 'tpope/vim-surround'
+" dwm.vim
+Bundle 'spolu/dwm.vim'
 
 """""""""""""
 "  GENERAL  "
@@ -52,6 +55,7 @@ set autoindent 				" indentation
 set smartindent				" .... intelligente
 set textwidth=120 			" 120chars width
 set laststatus=2
+set foldmethod=marker
 " default colorscheme, but dark line num
 hi LineNr ctermfg=0
 " Is there trailing whitespaces (powerline)
@@ -127,7 +131,7 @@ inoremap <F3> <Esc>:NERDTreeToggle<cr>
 nnoremap <F3> :NERDTreeToggle<cr>
 
 " Narrow/Widen emacs-like
-vnoremap  <F4> y:let [f,s,v]=[&ft,&syn,getregtype('@"')]<CR>:tabnew<CR>Vp:set ft=<c-r>=f<CR> syn=<c-r>=s<CR><CR>:nnoremap <buffer> <F4> :let @"=v<C-r>="<"<CR>CR>gg0@"G$d:q!<C-r>="<"<CR>CR>gvp<CR>:call ToggleFocusMode()<CR>
+vnoremap  <F4> y:let [f,s,v]=[&ft,&syn,getregtype('@"')]<CR>:tabnew<CR>Vp:set ft=<c-r>=f<CR> syn=<c-r>=s<CR><CR>:nnoremap <buffer> <F4> :let @"=v<C-r>="<"<CR>CR>gg0@"G$d:q!<C-r>="<"<CR>CR>gvp<CR>
 
 " Fix whitespaces
 "" entire file
