@@ -68,7 +68,7 @@ bindsym $mod+e layout default
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+Tab focus mode_toggle
 
 # focus the parent container
 bindsym $mod+q focus parent
@@ -170,8 +170,13 @@ bindsym $mod+Control+p exec "ncmpcpp prev"
 # volume
 bindsym $mod+Control+KP_Multiply exec "amixer -q sset Master 3dB+"
 bindsym $mod+Control+KP_Divide exec "amixer -q sset Master 2dB-"
+bindsym $mod+space exec "urxvt -title 'quickterm'"
 
 # apps at start
 exec .screenlayout/LG.sh&
-exec_always urxvt -title "scratchpad" -e "tmux"
+exec urxvt -title "scratchpad"
 for_window [title="scratchpad"] move scratchpad
+for_window [class="MPlayer"] floating enable
+for_window [class="feh"] floating enable
+for_window [class="Python2"] floating enable
+for_window [title="quickterm"] floating enable
