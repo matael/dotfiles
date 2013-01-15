@@ -2,9 +2,7 @@ set nocompatible " improved !
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
 let g:Powerline_symbols = 'fancy'
 
-""""""""""""
-"  VUNDLE  "
-""""""""""""
+" Vundle {{{1
 filetype off " required
 
 " Vundle dir
@@ -12,8 +10,7 @@ set rtp+=~/.vim/bundle/vundle/
 " init
 call vundle#rc()
 
-" Plugins
-" """""""
+" Plugins {{{2
 
 " vundle
 Bundle 'gmarik/vundle'
@@ -26,24 +23,26 @@ Bundle "Lokaltog/vim-powerline"
 call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
 "" tcomment
 Bundle 'tomtom/tcomment_vim'
-" vim-notes
-Bundle 'xolox/vim-notes'
 " nerdtree
 Bundle 'scrooloose/nerdtree'
 " trailing-whitespaces
 Bundle 'bronson/vim-trailing-whitespace'
-" command-t
-Bundle 'git://git.wincent.com/command-t.git'
 " syntastic
 Bundle 'scrooloose/syntastic'
 " vim surround
 Bundle 'tpope/vim-surround'
-" dwm.vim
-Bundle 'spolu/dwm.vim'
+" less css
+Bundle 'groenewege/vim-less'
+" Solarized
+Bundle 'altercation/vim-colors-solarized.git'
+" vim wiki
+Bundle 'vimwiki'
+" gist
+Bundle 'mattn/gist-vim'
+" webapi
+Bundle 'mattn/webapi-vim'
 
-"""""""""""""
-"  GENERAL  "
-"""""""""""""
+" GENERAL {{{1
 
 let mapleader = "," 		" leader
 syntax on					" syntax
@@ -56,18 +55,18 @@ set smartindent				" .... intelligente
 set textwidth=120 			" 120chars width
 set laststatus=2
 set foldmethod=marker
-" default colorscheme, but dark line num
-hi LineNr ctermfg=0
+set foldcolumn=3
 " Is there trailing whitespaces (powerline)
 " Statusline (if not powerline, use that ;))
 "set statusline=%F%m%r%h%w\ %{fugitive#statusline()}\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 
 
-" Numbering
-" """""""""
+" Numbering {{{1
 set nu 						" general numbering
+
 " change between relative and absolute while
-" switching modes or with C-n
+" switching modes or with <F6>
+" NumberToggle {{{2
 function! NumberToggle()
     if(&relativenumber == 1)
         set number
@@ -75,12 +74,12 @@ function! NumberToggle()
         set relativenumber
     endif
 endfunc
+" }}}
+nnoremap <F6> :call NumberToggle()<cr>
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
-nnoremap <C-n> :call NumberToggle()<cr>
 
-" Binding file extensions and types
-" """""""""""""""""""""""""""""""""
+" Binding file extensions and types {{{1
 
 " Processing
 au BufNewFile,BufRead *.pde setf processing
@@ -89,13 +88,13 @@ au BufNewFile,BufRead *.ino setf arduino
 " Markdown
 au BufNewFile,BufRead *.mkd setf mkd
 
-" Syntastic + colors
-" """"""""""""""""""
-"
-let g:syntastic_check_on_open=1
+" Syntastic + colors {{{1
 
-" FocusMode
-" """""""""
+let g:syntastic_check_on_open=0
+let g:syntastic_mode_map = {'mode': 'passive'}
+
+" FocusMode {{{1
+
 function! ToggleFocusMode()
 	if (&foldcolumn != 12)
 		set laststatus=0
@@ -116,9 +115,7 @@ endfunc
 map <F2> :call ToggleFocusMode()<cr>
 
 
-""""""""""""""
-"  MAPPINGS  "
-""""""""""""""
+" MAPPINGS {{{1
 
 " invert lines
 noremap <Leader>i ddp
@@ -130,7 +127,7 @@ inoremap jj <Esc>
 inoremap <F3> <Esc>:NERDTreeToggle<cr>
 nnoremap <F3> :NERDTreeToggle<cr>
 
-" Narrow/Widen emacs-like
+" Narrow/Widen emacs-like <F4>
 vnoremap  <F4> y:let [f,s,v]=[&ft,&syn,getregtype('@"')]<CR>:tabnew<CR>Vp:set ft=<c-r>=f<CR> syn=<c-r>=s<CR><CR>:nnoremap <buffer> <F4> :let @"=v<C-r>="<"<CR>CR>gg0@"G$d:q!<C-r>="<"<CR>CR>gvp<CR>
 
 " Fix whitespaces
@@ -140,8 +137,7 @@ noremap <leader>W :FixWhitespace<cr>
 noremap <leader>w V:FixWhitespace<cr>
 
 
-" Arrow keys
-" """"""""""
+" Arrow keys {{{1
 
 " Don't move around with arrows
 noremap <up> <nop>
@@ -153,9 +149,16 @@ inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
 
-" Colors
-" """"""
+" Colors {{{1
 
-hi SignColumn guifg=#00aaff guibg=NONE guisp=NONE gui=NONE ctermfg=39 ctermbg=NONE cterm=NONE
+" set t_Co=256
+" colorscheme mine
+syntax enable
+set background=dark
+colorscheme solarized
+
+
+
+"hi SignColumn guifg=#00aaff guibg=#272822 guisp=NONE gui=NONE ctermfg=39 ctermbg=234 cterm=NONE
 hi Error guifg=#ffffcd guibg=#ff0000 guisp=#306b8f gui=NONE ctermfg=230 ctermbg=196 cterm=NONE
-hi Todo guifg=#ffffcd guibg=#306b8f guisp=#306b8f gui=NONE ctermfg=230 ctermbg=24 cterm=NONE
+hi Todo guifg=#ffffcd guibg=#00a2ff guisp=#306b8f gui=NONE ctermfg=230 ctermbg=38 cterm=NONE
