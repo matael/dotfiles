@@ -16,7 +16,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 " vim-fugitive
 Bundle 'tpope/vim-fugitive'
-" snipMate
+" " snipMate
 Bundle 'msanders/snipmate.vim'
 " powerline
 Bundle "Lokaltog/vim-powerline"
@@ -41,6 +41,20 @@ Bundle 'vimwiki'
 Bundle 'mattn/gist-vim'
 " webapi
 Bundle 'mattn/webapi-vim'
+" supertab
+Bundle 'ervandew/supertab'
+" vim-template
+Bundle 'Matael/vim-template'
+
+" TAGS
+" easytags
+Bundle 'xolox/vim-easytags'
+" tagbar
+Bundle 'majutsushi/tagbar'
+let g:tagbar_left = 1
+
+
+" }}}
 
 " GENERAL {{{1
 
@@ -60,6 +74,7 @@ set foldcolumn=3
 " Statusline (if not powerline, use that ;))
 "set statusline=%F%m%r%h%w\ %{fugitive#statusline()}\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 
+set timeout timeoutlen=1000 ttimeoutlen=100
 
 " Numbering {{{1
 set nu 						" general numbering
@@ -135,6 +150,9 @@ vnoremap  <F4> y:let [f,s,v]=[&ft,&syn,getregtype('@"')]<CR>:tabnew<CR>Vp:set ft
 noremap <leader>W :FixWhitespace<cr>
 "" current line
 noremap <leader>w V:FixWhitespace<cr>
+
+inoremap <F10> <Esc>:TagbarToggle<cr>
+nnoremap <F10> :TagbarToggle<cr>
 
 
 " Arrow keys {{{1

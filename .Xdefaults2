@@ -1,0 +1,91 @@
+*foreground: #dddddd
+*background: #1C1C1C
+!Black
+*color0:           #3d3e3d
+*color8:           #5a5b5c
+!Red
+*color1:           #755a5b
+*color9:           #a37679
+!Green
+*color2:           #68755a
+*color10:          #87a376
+!Yellow
+*color3:           #756e5a
+*color11:          #a39b76
+!Blue
+*color4:           #5b6976
+*color12:          #758ba3
+!Magenta
+*color5:           #755b76
+*color13:          #9f76a3
+!Cyan
+*color6:           #5b7674
+*color14:          #75a3a1
+!White
+*color7:           #808080
+*color15:          #aeafb0
+
+!urxvt.font: xft:Bitstream Vera Sans Mono-7.5
+urxvt.font: xft:Mensch for Powerline:size=8
+!urxvt.font: xft:Dejavu Sans Mono:size=8
+urxvt.termName:  rxvt-256color
+urxvt.loginShell:         true
+urxvt.scrollBar:         false
+urxvt.secondaryScroll:    true
+urxvt.saveLines:         1024
+urxvt.cursorBlink:       false
+urxvt.urgentOnBell:       true
+urxvt.override-redirect: false
+urxvt.fading:           25
+urxvt.shading:          10
+!urxvt.borderLess:       false
+!urxvt.borderWidth:          1
+!urxvt.internalBorder:       0
+!
+! Extensions
+urxvt*perl-lib:         /usr/lib/urxvt/perl/
+urxvt*perl-ext-common:  default,matcher,searchable-scrollback
+urxvt*urlLauncher:      /usr/bin/firefox
+!urxvt*matcher.button:   1
+! So we catch even nasty URLs
+!urxvt.cutchars:         `()'*<>[]{|}"
+!URxvt*cutchars:         `"()'*<>[]{|}
+
+!
+*background: #181512
+*foreground: #bea492
+*cursorColor: #93a1a1
+
+!! black dark/light
+*color0: #332d29
+*color8: #817267
+
+!! red dark/light
+*color1: #8c644c
+*color9: #9f7155
+
+!! green dark/light
+*color2: #c4be90
+*color10: #bec17e
+
+!! yellow dark/light
+*color3: #bfba92
+*color11: #fafac0
+
+!! blue dark/light
+! *color4: #293033
+! *color12: #303b40
+*color4: #646a6d
+*color12: #626e74
+
+!! magenta dark/light
+*color5: #6d6871
+*color13: #756f7b
+
+!! cyan dark/light
+*color6: #3b484a
+*color14: #444d4e
+
+!! white dark/light
+*color7: #504339
+*color15: #9a875f

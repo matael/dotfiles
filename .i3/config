@@ -32,6 +32,9 @@ bindsym $mod+k focus down
 bindsym $mod+l focus up
 bindsym $mod+m focus right
 
+# lock screen
+bindsym Control+$mod+l exec i3-msg workspace 1 && i3lock -c 111111 -d
+
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
@@ -162,21 +165,25 @@ bindsym $mod+Shift+F2 move container to workspace irc
 workspace "irc" output LVDS
 
 # ncmpcpp
-bindsym $mod+n exec "urxvt -e ncmpcpp"
+bindsym $mod+n exec "urxvt -title 'quickncmpcpp' -geometry 160x48 -e ncmpcpp"
 bindsym $mod+Control+space exec "ncmpcpp toggle"
 bindsym $mod+Control+n exec "ncmpcpp next"
 bindsym $mod+Control+p exec "ncmpcpp prev"
 
 # volume
-bindsym $mod+Control+KP_Multiply exec "amixer -q sset Master 3dB+"
-bindsym $mod+Control+KP_Divide exec "amixer -q sset Master 2dB-"
-bindsym $mod+space exec "urxvt -title 'quickterm'"
+# bindsym $mod+Control+KP_Multiply exec "amixer -q sset Master 3dB+"
+# bindsym $mod+Control+KP_Divide exec "amixer -q sset Master 2dB-"
+bindsym XF86AudioRaiseVolume exec "amixer -q sset Master 3dB+"
+bindsym XF86AudioLowerVolume exec "amixer -q sset Master 2dB-"
+
+bindsym $mod+space exec "urxvt -title 'quickterm' -geometry 100x30"
 
 # apps at start
-exec .screenlayout/LG.sh&
+exec .screenlayout/LG2.sh&
 exec urxvt -title "scratchpad"
 for_window [title="scratchpad"] move scratchpad
 for_window [class="MPlayer"] floating enable
 for_window [class="feh"] floating enable
 for_window [class="Python2"] floating enable
 for_window [title="quickterm"] floating enable
+for_window [title="quickncmpcpp"] floating enable
