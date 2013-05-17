@@ -17,7 +17,7 @@ Bundle 'gmarik/vundle'
 " vim-fugitive
 Bundle 'tpope/vim-fugitive'
 " " snipMate
-Bundle 'msanders/snipmate.vim'
+Bundle 'ervandew/snipmate.vim'
 " powerline
 Bundle "Lokaltog/vim-powerline"
 call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
@@ -154,6 +154,7 @@ noremap <leader>w V:FixWhitespace<cr>
 inoremap <F10> <Esc>:TagbarToggle<cr>
 nnoremap <F10> :TagbarToggle<cr>
 
+nnoremap <leader>t :split<cr>:resize 20<cr>'T
 
 " Arrow keys {{{1
 
