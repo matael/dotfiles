@@ -59,16 +59,6 @@ bindkey '[2~' overwrite-mode          # Insert
 bindkey '[5~' history-search-backward # PgUp
 bindkey '[6~' history-search-forward  # PgDn
 
-# Prompt couleur (la couleur n'est pas la même pour le root et
-# pour les simples utilisateurs)
-if [ "`id -u`" -eq 0 ]; then
-	#export PS1="%{[36;1m%}%T %{[34m%}%n%{[33m%}@%{[37m%}%m %{[32m%}%~ %{[33m%}%#%{[0m%} "
-	export PS1="%{[1;31m%}%n | %~ > %(!.#.::)%{[0m%} "
-else
-	#export PS1="%{[36;1m%}%T %{[31m%}%n%{[33m%}@%{[37m%}%m %{[32m%}%~ %{[33m%}%#%{[0m%} "
-	#export PS1="%{[36;1m%}[%T](%{[31m%}%n%{[33m%}::%{[37m%}%m) %{[32m%}%~ %{[33m%}%(!.#.::)%{[0m%} "
-	export PS1="%{[1;37m%}%n | %{[32m%}%~%{[37m%} > %{[34m%}%m %(!.#.::)%{[0m%} "
-fi
 
 # Prise en charge des touches [début], [fin] et autres
 typeset -A key
@@ -93,13 +83,6 @@ key[PageDown]=${terminfo[knp]}
 [[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
 [[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
 
-
-# Titre de la fenêtre d'un xterm
-case $TERM in
-   xterm*)
-       precmd () {print -Pn "\e]0;%n@%m: %~\a"}
-       ;;
-esac
 
 # Gestion de la couleur pour 'ls' (exportation de LS_COLORS)
 if [ -x /usr/bin/dircolors ]
@@ -134,8 +117,6 @@ setopt print_exit_value
 # Demande confirmation pour 'rm *'
 unsetopt rm_star_silent
 # Correction orthographique des commandes
-# Désactivé car, contrairement à ce que dit le "man", il essaye de
-# corriger les commandes avant de les hasher
 #setopt correct
 # Si on utilise des jokers dans une liste d'arguments, retire les jokers
 # qui ne correspondent à rien au lieu de donner une erreur
@@ -165,7 +146,6 @@ setopt nullglob
 # Ce schéma est le meilleur à mon goût !
 # Si vous voulez ce schéma, décommentez la ligne suivante :
 unsetopt list_ambiguous
-# (Merci à Youri van Rietschoten de m'avoir donné l'info !)
 
 # Options de complétion
 # Quand le dernier caractère d'une complétion est '/' et que l'on
@@ -180,7 +160,7 @@ setopt chase_links
 # Quand l'utilisateur commence sa commande par '!' pour faire de la
 # complétion historique, il n'exécute pas la commande immédiatement
 # mais il écrit la commande dans le prompt
-setopt hist_verify
+#setopt hist_verify
 # Si la commande est invalide mais correspond au nom d'un sous-répertoire
 # exécuter 'cd sous-répertoire'
 setopt auto_cd
@@ -245,16 +225,55 @@ setopt hist_find_no_dups
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}'
 zstyle ':completion:*' max-errors 3 numeric
 zstyle ':completion:*' use-compctl false
+zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=36=31"
 
 autoload -U compinit
 compinit
 
+
 export TERM="rxvt-unicode"
 export EDITOR=vim
-export JAVA_HOME="/usr/lib/jvm/java-6-openjdk/"
-export ANT_HOME="/usr/share/apache-ant/" 
+#export NNTPSERVER=news.orange.fr
+export NNTPSERVER=nntp.aioe.org
+
+# create scratch dirs on the fly 
+function new-scratch {
+	cur_dir="/tmp/scratch"
+	new_dir="/tmp/scratch-`date +'%s'`"
+	mkdir -p $new_dir
+	ln -nfs $new_dir $cur_dir
+	cd $cur_dir
+	echo "New scratch dir ready for grinding ;>"
+}
+
+source /etc/profile
+[[ -s /etc/profile.d/autojump.sh ]] && . /etc/profile.d/autojump.sh
+
 
 export PATH=${PATH}:/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools
 
-export PATH=${PATH}:/home/matael/bin
-export NNTPSERVER=news.orange.fr
+export PATH=${PATH}:/home/matael/bin:/home/matael/.gem/ruby/1.9.1/bin
+export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python2.7/site-packages
+
+
+OH_MY_ZSH=$HOME/workspace/projects/oh-my-zsh
+
+# Load all of the config files in oh-my-zsh that end in .zsh
+for config_file ($OH_MY_ZSH/lib/*.zsh) source $config_file
+
+# get the name of the branch we are on
+function git_prompt_info_custom() {
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+  # echo "(%{$fg[green]%}${ref#refs/heads/}%{$fg_bold[blue]%}@$(git_prompt_short_sha)$(parse_git_dirty))"
+  echo "%{$fg[white]%}(%{$fg[green]%}${ref#refs/heads/}%{$fg_bold[red]%}$(parse_git_dirty)%{$fg_no_bold[white]%})%{$reset_color%}"
+}
+
+# Prompt couleur (la couleur n'est pas la même pour le root et
+# pour les simples utilisateurs)
+if [ "`id -u`" -eq 0 ]; then
+	export PROMPT='%{$fg[red]%}%n | %~ > $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
+else
+	export PROMPT='%{$fg[white]%}%n | %{$fg_bold[green]%}%~%{$fg_no_bold[white]%} > %{$fg[blue]%}%m $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
+fi
+
+
