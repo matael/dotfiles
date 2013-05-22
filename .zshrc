@@ -279,9 +279,10 @@ function git_prompt_info_custom() {
 if [ "`id -u`" -eq 0 ]; then
 	export PROMPT='%{$fg[blue]%}$(virtualenv_prompt_info_custom)%{$fg[red]%}%n | %~ > $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
 else
-	export PROMPT='%{$fg[blue]%}$(virtualenv_prompt_info_custom)%{$fg[white]%}%n | %{$fg_bold[green]%}%~%{$fg_no_bold[white]%} > %{$fg[blue]%}%m $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
+	# export PROMPT='%{$fg[blue]%}$(virtualenv_prompt_info_custom)%{$fg[white]%}%n | %{$fg_bold[green]%}%~%{$fg_no_bold[white]%} > %{$fg[blue]%}%m $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
+	export PROMPT='%{$fg[blue]%}$(virtualenv_prompt_info_custom)%{$fg[white]%}%n | %{$fg_bold[green]%}%2~%{$fg_no_bold[white]%} > %{$fg[blue]%}%m $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
 fi
 
 # Venvs
 export WORKON_HOME=~/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+source /usr/local/bin/virtualenvwrapper.sh 2> /dev/null | source /usr/bin/virtualenvwrapper.sh 2> /dev/null
