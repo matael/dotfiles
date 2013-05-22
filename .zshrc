@@ -4,6 +4,12 @@
 # Formation Debian GNU/Linux par Alexis de Lattre
 # http://formation-debian.via.ecp.fr/
 
+OH_MY_ZSH=$HOME/workspace/projects/oh-my-zsh
+
+# Load all of the config files in oh-my-zsh that end in .zsh
+for config_file ($OH_MY_ZSH/lib/*.zsh) source $config_file
+source ~/workspace/projects/dotfiles/virtualenv.plugin.zsh
+
 ################
 # 1. Les alias #
 ################
@@ -255,11 +261,11 @@ export PATH=${PATH}:/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform
 export PATH=${PATH}:/home/matael/bin:/home/matael/.gem/ruby/1.9.1/bin
 export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python2.7/site-packages
 
-
-OH_MY_ZSH=$HOME/workspace/projects/oh-my-zsh
-
-# Load all of the config files in oh-my-zsh that end in .zsh
-for config_file ($OH_MY_ZSH/lib/*.zsh) source $config_file
+function virtualenv_prompt_info_custom() {
+    if [ "$VIRTUAL_ENV" ]; then
+		echo "$(virtualenv_prompt_info)|"
+	fi
+}
 
 # get the name of the branch we are on
 function git_prompt_info_custom() {
@@ -271,9 +277,11 @@ function git_prompt_info_custom() {
 # Prompt couleur (la couleur n'est pas la même pour le root et
 # pour les simples utilisateurs)
 if [ "`id -u`" -eq 0 ]; then
-	export PROMPT='%{$fg[red]%}%n | %~ > $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
+	export PROMPT='%{$fg[blue]%}$(virtualenv_prompt_info_custom)%{$fg[red]%}%n | %~ > $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
 else
-	export PROMPT='%{$fg[white]%}%n | %{$fg_bold[green]%}%~%{$fg_no_bold[white]%} > %{$fg[blue]%}%m $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
+	export PROMPT='%{$fg[blue]%}$(virtualenv_prompt_info_custom)%{$fg[white]%}%n | %{$fg_bold[green]%}%~%{$fg_no_bold[white]%} > %{$fg[blue]%}%m $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
 fi
 
-
+# Venvs
+export WORKON_HOME=~/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
