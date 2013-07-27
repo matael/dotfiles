@@ -49,6 +49,8 @@ Bundle 'ervandew/supertab'
 Bundle 'Matael/vim-template'
 " vim-scala
 Bundle 'derekwyatt/vim-scala'
+" parentheses
+Bundle 'Raimondi/delimitMate'
 
 " TAGS
 " easytags
@@ -56,10 +58,6 @@ Bundle 'xolox/vim-easytags'
 " tagbar
 Bundle 'majutsushi/tagbar'
 let g:tagbar_left = 1
-
-
-" delimitMate
-Bundle 'Raimondi/delimitMate'
 
 
 " }}}
