@@ -25,6 +25,8 @@ call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
 Bundle 'tomtom/tcomment_vim'
 " nerdtree
 Bundle 'scrooloose/nerdtree'
+" CtrlP
+Bundle 'kien/ctrlp.vim'
 " trailing-whitespaces
 Bundle 'bronson/vim-trailing-whitespace'
 " syntastic
@@ -45,6 +47,8 @@ Bundle 'mattn/webapi-vim'
 Bundle 'ervandew/supertab'
 " vim-template
 Bundle 'Matael/vim-template'
+" vim-scala
+Bundle 'derekwyatt/vim-scala'
 
 " TAGS
 " easytags
@@ -52,6 +56,10 @@ Bundle 'xolox/vim-easytags'
 " tagbar
 Bundle 'majutsushi/tagbar'
 let g:tagbar_left = 1
+
+
+" delimitMate
+Bundle 'Raimondi/delimitMate'
 
 
 " }}}
@@ -156,6 +164,8 @@ nnoremap <F10> :TagbarToggle<cr>
 
 nnoremap <leader>t :split<cr>:resize 20<cr>'T
 
+" color colomn at textwidth
+nnoremap <F8> :let &colorcolumn=&textwidth<cr>
 " Arrow keys {{{1
 
 " Don't move around with arrows
@@ -167,6 +177,14 @@ inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
+
+
+nnoremap <silent><c-k> <C-w>k
+nnoremap <silent><c-j> <C-w>j
+nnoremap <silent><c-l> <C-w>l
+nnoremap <silent><c-h> <C-w>h
+nnoremap <silent><left> gT
+nnoremap <silent><right> gt
 
 " Colors {{{1
 
@@ -181,3 +199,4 @@ colorscheme solarized
 "hi SignColumn guifg=#00aaff guibg=#272822 guisp=NONE gui=NONE ctermfg=39 ctermbg=234 cterm=NONE
 hi Error guifg=#ffffcd guibg=#ff0000 guisp=#306b8f gui=NONE ctermfg=230 ctermbg=196 cterm=NONE
 hi Todo guifg=#ffffcd guibg=#00a2ff guisp=#306b8f gui=NONE ctermfg=230 ctermbg=38 cterm=NONE
+
