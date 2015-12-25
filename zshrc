@@ -4,11 +4,12 @@
 # Formation Debian GNU/Linux par Alexis de Lattre
 # http://formation-debian.via.ecp.fr/
 
-OH_MY_ZSH=$HOME/workspace/projects/oh-my-zsh
+OH_MY_ZSH=$HOME/useful/oh-my-zsh
 
 # Load all of the config files in oh-my-zsh that end in .zsh
 for config_file ($OH_MY_ZSH/lib/*.zsh) source $config_file
-source ~/workspace/projects/dotfiles/virtualenv.plugin.zsh
+source ~/useful/virtualenv.plugin.zsh
+zstyle :omz:plugins:ssh-agent id_rsa EAA_id_dsa
 
 ################
 # 1. Les alias #
@@ -20,7 +21,7 @@ alias ls='ls --classify --tabsize=0 --literal --color=auto --show-control-chars 
 # Demande confirmation avant d'écraser un fichier
 alias cp='cp'
 alias mv='mv'
-alias rm='rm' 
+alias rm='rm'
 
 # Raccourcis pour 'ls'
 alias ll='ls -l'
@@ -37,9 +38,22 @@ alias m='mutt -y'
 alias md='mkdir'
 alias rd='rmdir'
 alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
-alias startmpd='/home/matael/bin/startmpd'
 alias tmux='tmux -2'
+alias g='git'
 alias paste='curl -F "sprunge=<-" http://sprunge.us'
+alias yolo='git commit -am "DEAL WITH IT" && git push -f origin master'
+alias :q='exit'
+alias vi='vim'
+alias grep='grep --color=auto'
+alias oct='octave-cli'
+alias vims='vim +"so session.vim"'
+alias jptr='jupyter notebook --ip=127.0.0.1'
+alias t='task'
+alias µ='mupdf'
+
+function ompld() {
+	curl -s -F file1=$1 -F submit="OMPLOAD\!" http://ompldr.org/upload | egrep '(View file: <a href="v([A-Za-z0-9+\/]+)">)' | sed 's/^.*\(http:\/\/.*\)<.*$/\1/'
+}
 
 
 #######################################
@@ -142,7 +156,7 @@ setopt nullglob
 #                   de la liste
 # 2ème tabulation : complète avec le 2ème item de la liste, etc...
 # Si vous voulez ce schéma, décommentez la ligne suivante :
-#setopt menu_complete
+setopt menu_complete
 
 # Schéma C :
 # 1ère tabulation : complète jusqu'au bout de la partie commune et
@@ -151,7 +165,7 @@ setopt nullglob
 # 3ème tabulation : complète avec le 2ème item de la liste, etc...
 # Ce schéma est le meilleur à mon goût !
 # Si vous voulez ce schéma, décommentez la ligne suivante :
-unsetopt list_ambiguous
+# unsetopt list_ambiguous
 
 # Options de complétion
 # Quand le dernier caractère d'une complétion est '/' et que l'on
@@ -242,7 +256,7 @@ export EDITOR=vim
 #export NNTPSERVER=news.orange.fr
 export NNTPSERVER=nntp.aioe.org
 
-# create scratch dirs on the fly 
+# create scratch dirs on the fly
 function new-scratch {
 	cur_dir="/tmp/scratch"
 	new_dir="/tmp/scratch-`date +'%s'`"
@@ -259,7 +273,7 @@ source /etc/profile
 export PATH=${PATH}:/opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools
 
 export PATH=${PATH}:/home/matael/bin:/home/matael/.gem/ruby/1.9.1/bin
-export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python2.7/site-packages
+export PYTHONPATH=$PYTHONPATH:/usr/local/lib/python2.7/site-packages:/usr/local/lib/python3/dist-packages/cura/
 
 function virtualenv_prompt_info_custom() {
     if [ "$VIRTUAL_ENV" ]; then
@@ -285,4 +299,6 @@ fi
 
 # Venvs
 export WORKON_HOME=~/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh 2> /dev/null | source /usr/bin/virtualenvwrapper.sh 2> /dev/null
+source /usr/bin/virtualenvwrapper.sh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+

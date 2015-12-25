@@ -1,0 +1,27 @@
+[user]
+	name = Mathieu (matael) Gaborit
+	email = mat.gaborit@gmx.com
+[color]
+	status = auto
+	branch = auto
+	interactive = auto
+	diff = auto
+[alias]
+	st = status
+	ci = commit
+	br = branch
+	co = checkout
+	df = diff
+	lg = log -p
+	lo = log --decorate
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	pa = add --patch
+	ps = push
+	pl = pull
+	diffstat = diff --stat -r
+	h = log --color --pretty=format:\"%C(yellow)%h%C(reset) %s%C(bold red)%d%C(reset) %C(green)%ad%C(reset) %C(blue)[%an]%C(reset)\" --relative-date --decorate
+	unstage = reset HEAD --
+	graph = log --color --graph --pretty=format:\"%h | %ad | %an | %s%d\" --date=short
+
+[push]
+	default = matching

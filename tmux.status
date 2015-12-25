@@ -9,7 +9,20 @@
 # 9 orange
 # black -> white 8 0 10 11 12 14 7 15
 
-. $HOME/dotfiles/zsh/misc-functions.zsh
+# works with both integers and floats
+percent-spark() {
+  if (( $1 < 10 )); then printf " "
+  elif (( $1 < 20 )); then printf "_"
+  elif (( $1 < 30 )); then printf "▁"
+  elif (( $1 < 40 )); then printf "▂"
+  elif (( $1 < 50 )); then printf "▃"
+  elif (( $1 < 60 )); then printf "▄"
+  elif (( $1 < 70 )); then printf "▅"
+  elif (( $1 < 80 )); then printf "▆"
+  elif (( $1 < 90 )); then printf "▇"
+  else printf "█"
+  fi
+}
 
 # WEECHAT
 
@@ -48,16 +61,16 @@
 # show_mail "mail" "$HOME/.mail/thibault.duplessis.gmail.com/INBOX"
 
 # WIFI
-interface="wlp3s0"
-quality=$(iwconfig $interface | grep Quality | cut -d'=' -f2 | cut -d' ' -f1 | cut -d'/' -f1)
-if [[ $quality -gt 0 ]]; then
-  (( percent = (quality * 100) / 70 ))
-  printf " #[fg=colour3]w%s#[default]" "$percent"
-fi
+# interface="wlan0"
+# quality=$(iwconfig $interface | grep Quality | cut -d'=' -f2 | cut -d' ' -f1 | cut -d'/' -f1)
+# if [[ $quality -gt 0 ]]; then
+#   (( percent = (quality * 100) / 70 ))
+#   printf " #[fg=colour3]w%s#[default]" "$percent"
+# fi
 
 # BATTERY
 
-infos=$(acpi -b)
+# infos=$(acpi -b)
 # percent=$(echo $infos|sed "s/Battery .: [a-z]*, \([0-9]*\)%\(,.*\|$\)/\1/i")
 # state=$(echo $infos|sed "s/Battery .: \([a-z]*\),.*/\1/i")
 # if [ "$percent" -lt 5 ]; then modifier="#[bg=colour1,fg=colour15,bright]"
@@ -80,14 +93,14 @@ infos=$(acpi -b)
 #   ;;
 # esac
 # printf " $modifier%s%s#[default]" "$percentS" "$sign"
-raw=$(echo $infos|sed "s/Battery .: \(.*\)/\1/i")
-printf " %s(%s)#[default]" "#[fg=colour10]" "$raw"
+# raw=$(echo $infos|sed "s/Battery .: \(.*\)/\1/i")
+# printf " %s(%s)#[default]" "#[fg=colour10]" "$raw"
 
-TEMPERATURE & FAN
+# TEMPERATURE & FAN
 
 for i in 0 1; do
   # TEMP_INPUT_FILE=/sys/class/hwmon/hwmon$i/temp1_input
-  TEMP_INPUT_FILE=/sys/devices/platform/coretemp.0/temp1_input
+  TEMP_INPUT_FILE=/sys/devices/platform/coretemp.0/temp2_input
   [[ -f $TEMP_INPUT_FILE ]] && break
 done
 (( temperature = $(<$TEMP_INPUT_FILE) / 1000 ))
@@ -96,7 +109,7 @@ elif [ "$temperature" -gt 57 ]; then modifier="#[fg=colour13,bright]"
 elif [ "$temperature" -gt 50 ]; then modifier="#[fg=colour6]"
 else modifier="#[fg=colour4]"
 fi
-printf " %s%s°#[default]" "$modifier" "$temperature"
+# printf " %s%s°#[default]" "$modifier" "$temperature"
 # for i in 0 1; do
   # FAN_INPUT_FILE=/sys/class/hwmon/hwmon$i/device/fan1_input
   # FAN_INPUT_FILE=/sys/devices/platform/thinkpad_hwmon/fan1_input
@@ -110,20 +123,20 @@ printf " %s%s°#[default]" "$modifier" "$temperature"
 
 # MEMORY
 
-memory=$(free | awk '/buffers\/cache:/ {printf "%.0f", 100*$3/($3 + $4)}')
+memory=$(free | awk '/buffer\/cache:/ {printf "%.0f", 100*$3/($3 + $4)}')
 if [ "$memory" -gt 85 ]; then modifier="#[bg=colour1,fg=colour15,bright]"
 elif [ "$memory" -gt 75 ]; then modifier="#[bg=colour3,fg=colour0]"
 elif [ "$memory" -gt 65 ]; then modifier="#[fg=colour9]"
 else modifier="#[fg=colour2]"
 fi
-printf " %sm%s#[default]" "$modifier" "$memory"
+# printf " %sm%s#[default]" "$modifier" "$memory"
 
 # CPU FREQ
 
 min=8
 max=22
 chart=""
-for i in 0 1 2 3; do
+for i in $(seq 0 7); do
   freq=$(</sys/devices/system/cpu/cpu$i/cpufreq/scaling_cur_freq)
   (( P = (($freq/100000.0) - $min) / ($max - $min) * 100 ))
   spark=$(percent-spark $P)
@@ -147,4 +160,4 @@ printf " %s%.01f#[default]" "$modifier" "$load"
 # FRENCH DATE
 
 # export TZ="America/Fortaleza"
-printf " #[fg=colour12]⎛$(date +"%a %b %d") $(date +"%H:%M")#[default]"
+printf " #[fg=colour12]/$(date +"%a %b %d") $(date +"%H:%M")#[default]"
