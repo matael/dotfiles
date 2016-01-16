@@ -75,8 +75,8 @@ let mapleader = "," 		" leader
 syntax on					" syntax
 filetype plugin indent on 	" filetype stuff
 set fillchars=vert:│    " that's a vertical box-drawing character
-" set ts=4 					" tabs
-" set sw=4 					" tabs
+set ts=2 					" tabs
+set sw=2 					" tabs
 set autoindent 				" indentation
 set smartindent				" .... intelligente
 set textwidth=120 			" 120chars width
