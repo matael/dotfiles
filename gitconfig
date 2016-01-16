@@ -18,6 +18,7 @@
 	pa = add --patch
 	ps = push
 	pl = pull
+	pr = pull --rebase
 	diffstat = diff --stat -r
 	h = log --color --pretty=format:\"%C(yellow)%h%C(reset) %s%C(bold red)%d%C(reset) %C(green)%ad%C(reset) %C(blue)[%an]%C(reset)\" --relative-date --decorate
 	unstage = reset HEAD --
