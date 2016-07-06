@@ -19,15 +19,18 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 " airline
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 let g:airline_theme = 'solarized'
 let g:airline#extensions#tabline#enabled = 1
 " tcomment
 Plugin 'tomtom/tcomment_vim'
 " nerdtree
 Plugin 'scrooloose/nerdtree'
+" nerdtree git
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 " CtrlP
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_cmd = 'CtrlPMixed'
 " trailing-whitespaces
 Plugin 'bronson/vim-trailing-whitespace'
@@ -45,6 +48,11 @@ Plugin 'mattn/webapi-vim'
 Plugin 'Valloric/YouCompleteMe'
 " vim-template
 Plugin 'Matael/vim-template'
+" vim-tweaks
+Plugin 'Matael/vim-tweaks'
+" undotree
+Plugin 'mbbill/undotree'
+Plugin 'tex-fold'
 
 " TAGS
 " easytags
@@ -52,18 +60,16 @@ Plugin 'Matael/vim-template'
 " tagbar
 " Plugin 'majutsushi/tagbar'
 " let g:tagbar_left = 1
-Plugin 'vim-scripts/taglist.vim'
-let Tlist_Use_Right_Window = 1
-let tlist_tex_settings = 'latex;l:labels;s:sections;t:subsections;u:subsubsections'
-let Tlist_Show_One_File = 1
+" Plugin 'vim-scripts/taglist.vim'
+" let Tlist_Use_Right_Window = 1
+" let tlist_tex_settings = 'latex;l:labels;s:sections;t:subsections;u:subsubsections'
+" let Tlist_Show_One_File = 1
+"
+Plugin 'majutsushi/tagbar'
 "set iskeyword=@,48-57,_,-,:,192-255
-
 
 " delimitMate
 Plugin 'Raimondi/delimitMate'
-
-" NrrwRgn
-Plugin 'chrisbra/NrrwRgn'
 
 " }}}
 
@@ -79,7 +85,7 @@ set ts=2 					" tabs
 set sw=2 					" tabs
 set autoindent 				" indentation
 set smartindent				" .... intelligente
-set textwidth=120 			" 120chars width
+set textwidth=90 			" 90chars width
 set laststatus=2
 set foldmethod=marker
 set foldcolumn=3
@@ -87,6 +93,8 @@ set splitbelow
 set splitright
 set timeout timeoutlen=1000 ttimeoutlen=100
 set nu 						" general numbering
+set undofile
+set undodir=~/.vim/undodir
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
 
@@ -111,6 +119,10 @@ noremap <silent> <Leader>fn :cn<CR>
 
 " MAPPINGS {{{1
 
+" never show help. never, ever.
+nnoremap <F1> <nop>
+inoremap <F1> <nop>
+
 " invert lines
 noremap <Leader>i ddp
 
@@ -120,6 +132,10 @@ inoremap jj <Esc>
 " NERDTree
 inoremap <F3> <Esc>:NERDTreeToggle<cr>
 nnoremap <F3> :NERDTreeToggle<cr>
+inoremap <F5> <Esc>:UndotreeToggle<cr>
+nnoremap <F5> :UndotreeToggle<cr>
+inoremap <F7> <Esc>:w<cr>:make<cr><cr>
+nnoremap <F7> :w<cr>:make<cr><cr>
 
 " Narrow/Widen emacs-like <F4>
 " vnoremap  <F4> y:let [f,s,v]=[&ft,&syn,getregtype('@"')]<CR>:tabnew<CR>Vp:set ft=<c-r>=f<CR> syn=<c-r>=s<CR><CR>:nnoremap <buffer> <F4> :let @"=v<C-r>="<"<CR>CR>gg0@"G$d:q!<C-r>="<"<CR>CR>gvp<CR>
@@ -131,16 +147,16 @@ noremap <leader>W :FixWhitespace<cr>
 "" current line
 noremap <leader>w V:FixWhitespace<cr>
 
-" inoremap <F10> <Esc>:TagbarToggle<cr>
-" nnoremap <F10> :TagbarToggle<cr>
-inoremap <F10> <Esc>:TlistToggle<cr>
-nnoremap <F10> :TlistToggle<cr>
-autocmd BufWrite * execute 'normal :TListUpdate()'
+inoremap <F10> <Esc>:TagbarToggle<cr>
+nnoremap <F10> :TagbarToggle<cr>
+" inoremap <F10> <Esc>:TlistToggle<cr>
+" nnoremap <F10> :TlistToggle<cr>
+" autocmd BufWrite * execute 'normal :TListUpdate()'
 
 " ultisnips
 " let g:UltiSnipsExpandTrigger="<C-j>"
-let g:UltiSnipsExpandTrigger="œ"
-let g:UltiSnipsJumpForwardTrigger="œ"
+let g:UltiSnipsExpandTrigger="<C-z>"
+let g:UltiSnipsJumpForwardTrigger="<C-b>"
 
 " color colomn at textwidth
 nnoremap <F8> :let &colorcolumn=&textwidth<cr>

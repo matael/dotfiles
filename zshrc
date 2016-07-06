@@ -4,12 +4,14 @@
 # Formation Debian GNU/Linux par Alexis de Lattre
 # http://formation-debian.via.ecp.fr/
 
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 OH_MY_ZSH=$HOME/useful/oh-my-zsh
 
 # Load all of the config files in oh-my-zsh that end in .zsh
 for config_file ($OH_MY_ZSH/lib/*.zsh) source $config_file
-source ~/useful/virtualenv.plugin.zsh
-zstyle :omz:plugins:ssh-agent id_rsa EAA_id_dsa
+source ~/useful/dotfiles/scripts/virtualenv.plugin.zsh
+plugins=(ssh-agent taskwarrior)
+zstyle :omz:plugins:ssh-agent identities id_rsa id_rsa_gh id_rsa_golgoth
 
 ################
 # 1. Les alias #
@@ -40,20 +42,20 @@ alias rd='rmdir'
 alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
 alias tmux='tmux -2'
 alias g='git'
-alias paste='curl -F "sprunge=<-" http://sprunge.us'
+alias paste='nc termbin.com 9999'
 alias yolo='git commit -am "DEAL WITH IT" && git push -f origin master'
 alias :q='exit'
-alias vi='vim'
 alias grep='grep --color=auto'
 alias oct='octave-cli'
-alias vims='vim +"so session.vim"'
 alias jptr='jupyter notebook --ip=127.0.0.1'
 alias t='task'
 alias µ='mupdf'
+alias vjptr='$VIRTUAL_ENV/bin/jupyter notebook --ip=127.0.0.1'
+alias tt='t calendar; t ; t summary'
+alias meteo='curl -4 wttr.in/Stockholm'
+alias vi='vim'
 
-function ompld() {
-	curl -s -F file1=$1 -F submit="OMPLOAD\!" http://ompldr.org/upload | egrep '(View file: <a href="v([A-Za-z0-9+\/]+)">)' | sed 's/^.*\(http:\/\/.*\)<.*$/\1/'
-}
+function ssa() { ssh-add ~/.ssh/id_rsa_$1 }
 
 
 #######################################
@@ -294,7 +296,7 @@ if [ "`id -u`" -eq 0 ]; then
 	export PROMPT='%{$fg[blue]%}$(virtualenv_prompt_info_custom)%{$fg[red]%}%n | %~ > $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
 else
 	# export PROMPT='%{$fg[blue]%}$(virtualenv_prompt_info_custom)%{$fg[white]%}%n | %{$fg_bold[green]%}%~%{$fg_no_bold[white]%} > %{$fg[blue]%}%m $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
-	export PROMPT='%{$fg[blue]%}$(virtualenv_prompt_info_custom)%{$fg[white]%}%n | %{$fg_bold[green]%}%2~%{$fg_no_bold[white]%} > %{$fg[blue]%}%m $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
+	export PROMPT='%{$fg[blue]%}$(virtualenv_prompt_info_custom)%{$fg[white]%}%n | %{$fg_bold[green]%}%2~%{$fg_no_bold[white]%} > %{$fg[green]%}%m $(git_prompt_info_custom)%(!.#.::)%{$reset_color%} '
 fi
 
 # Venvs
@@ -302,3 +304,12 @@ export WORKON_HOME=~/.virtualenvs
 source /usr/bin/virtualenvwrapper.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+export PATH=$PATH:/home/matael/.gem/ruby/2.3.0/bin
+
+export JAVA_HOME='/usr/lib/jvm/default-runtime'
+export EC2_HOME='/usr/local/ec2/ec2-api-tools-1.7.5.1'
+export PATH=$PATH:$EC2_HOME/bin 
+
+export AWS_ACCESS_KEY='AKIAJRRUPW7OV3ER5UQA'
+export AWS_SECRET_KEY='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'
+export EC2_URL=https://ec2.eu-central-1.amazonaws.com
