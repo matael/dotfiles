@@ -1,0 +1,23 @@
+URxvt.termName:  rxvt-256color
+URxvt.loginShell:         true
+URxvt.scrollBar:         false
+URxvt.secondaryScroll:    true
+URxvt.saveLines:         1024
+URxvt.cursorBlink:       false
+URxvt.urgentOnBell:       true
+URxvt.override-redirect: false
+URxvt.fading:           25
+URxvt.shading:          10
+URxvt.geometry: 			110x35
+!urxvt.borderLess:       false
+!urxvt.borderWidth:          1
+!urxvt.internalBorder:       0
+!
+! Extensions
+URxvt.perl-lib:         /usr/lib/urxvt/perl/
+URxvt.perl-ext-common:  default,matcher,searchable-scrollback
+URxvt.urlLauncher:      /usr/bin/firefox
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+

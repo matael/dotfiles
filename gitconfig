@@ -1,6 +1,7 @@
 [user]
 	name = Mathieu (matael) Gaborit
 	email = mat.gaborit@gmx.com
+	signingkey = 49A325BE
 [color]
 	status = auto
 	branch = auto
@@ -8,9 +9,11 @@
 	diff = auto
 [alias]
 	st = status
+	stt = status .
 	ci = commit
 	br = branch
 	co = checkout
+	cl = clone
 	df = diff
 	lg = log -p
 	lo = log --decorate
@@ -23,6 +26,13 @@
 	h = log --color --pretty=format:\"%C(yellow)%h%C(reset) %s%C(bold red)%d%C(reset) %C(green)%ad%C(reset) %C(blue)[%an]%C(reset)\" --relative-date --decorate
 	unstage = reset HEAD --
 	graph = log --color --graph --pretty=format:\"%h | %ad | %an | %s%d\" --date=short
-
 [push]
 	default = matching
+# [commit]
+# 	gpgsign = True
+# [gpg]
+# 	program = gpg2
+[pull]
+	rebase = true
+[core]
+	editor = nvim

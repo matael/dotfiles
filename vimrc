@@ -1,5 +1,4 @@
 set nocompatible " improved !
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
 
 let g:python_host_prog = '/bin/python2'
 
@@ -45,15 +44,15 @@ Plugin 'tpope/vim-dispatch'
 Plugin 'arcticicestudio/nord-vim'
 " YCM
 Plugin 'Valloric/YouCompleteMe'
+let g:ycm_global_ycm_extra_conf = '~/useful/dotfiles/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 0
 
-let g:ycm_semantic_triggers = {
-\  'tex'  : ['\ref{','\cite{'],
-\ }
-" vim-template
 Plugin 'Matael/vim-template'
 " undotree
 Plugin 'mbbill/undotree'
-Plugin 'tex-fold'
+Plugin 'Matael/tex-conceal.vim'
+Plugin 'matze/vim-tex-fold'
+let g:tex_fold_additional_envs = ['tikzpicture', 'tabular']
 " Plugin 'klen/python-mode'
 " let g:pymode_lint_ignore='E501,E225,E226,E228'
 " let g:pymode_options_max_line_length=160
@@ -78,6 +77,14 @@ Plugin 'mikewest/vimroom'
 Plugin 'rhysd/vim-grammarous'
 Plugin 'rhysd/unite.vim'
 Plugin 'matze/vim-move'
+
+Plugin 'voxpupuli/vim-puppet'
+
+Plugin 'jistr/vim-nerdtree-tabs'
+
+Plugin 'nvie/vim-flake8'
+
+Plugin 'djoshea/vim-matlab-fold'
 
 " }}}
 
@@ -106,8 +113,14 @@ set nu 						" general numbering
 set undofile
 set undodir=~/.vim/undodir
 set mouse=
+set encoding=utf-8
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
+aug QFClose
+  au!
+  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+aug END
+
 
 " Binding file extensions and types {{{1
 
@@ -143,34 +156,26 @@ vnoremap K <nop>
 noremap <Leader>i ddp
 
 " Remap jk to esc
-inoremap jj <Esc>
+inoremap jk <Esc>
 
 " NERDTree
-inoremap <F3> <Esc>:NERDTreeToggle<cr>
-nnoremap <F3> :NERDTreeToggle<cr>
+inoremap <F3> <Esc>:NERDTreeTabsToggle<cr>
+nnoremap <F3> :NERDTreeTabsToggle<cr>
 inoremap <F5> <Esc>:UndotreeToggle<cr>
 nnoremap <F5> :UndotreeToggle<cr>
 inoremap <F7> <Esc>:w<cr>:make<cr><cr>
 nnoremap <F7> :w<cr>:make<cr><cr>
+nnoremap <F9> :YcmCompleter FixIt<CR>
+inoremap <F10> <Esc>:TagbarToggle<cr>
+nnoremap <F10> :TagbarToggle<cr>
 
-" vim-tests
-nmap <silent> <leader>t :TestNearest<CR>
-nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>l :TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
-
+vnoremap <F9> :'<,'>normal :YcmCompleter FixIt<CR>
 " Fix whitespaces
 "" entire file
 noremap <leader>W :FixWhitespace<cr>
 "" current line
 noremap <leader>w V:FixWhitespace<cr>
 
-inoremap <F10> <Esc>:TagbarToggle<cr>
-nnoremap <F10> :TagbarToggle<cr>
-" inoremap <F10> <Esc>:TlistToggle<cr>
-" nnoremap <F10> :TlistToggle<cr>
-" autocmd BufWrite * execute 'normal :TListUpdate()'
 
 " ultisnips
 " let g:UltiSnipsExpandTrigger="<C-j>"
@@ -190,12 +195,18 @@ inoremap <left> <nop>
 inoremap <right> <nop>
 
 
-nnoremap <silent><c-k> <C-w>k
-nnoremap <silent><c-j> <C-w>j
-nnoremap <silent><c-l> <C-w>l
-nnoremap <silent><c-h> <C-w>h
-nnoremap <silent><left> gT
-nnoremap <silent><right> gt
+nnoremap <silent><C-k> <C-w>k
+nnoremap <silent><C-j> <C-w>j
+nnoremap <silent><C-l> <C-w>l
+nnoremap <silent><C-h> <C-w>h
+inoremap <silent><Left> <Esc>:bp<CR>
+inoremap <silent><Right> <Esc>:bn<CR>
+nnoremap <silent><Left> :bp<CR>
+nnoremap <silent><Right> :bn<CR>
+inoremap <silent><Up> <Esc>gT
+inoremap <silent><Down> <Esc>gt
+nnoremap <silent><Up> gT
+nnoremap <silent><Down> gt
 
 " Colors {{{1
 
@@ -212,7 +223,13 @@ colorscheme nord
 hi Error guifg=#ffffcd guibg=#ff0000 guisp=#306b8f gui=NONE ctermfg=230 ctermbg=196 cterm=NONE
 hi Todo guifg=#ffffcd guibg=#00a2ff guisp=#306b8f gui=NONE ctermfg=230 ctermbg=38 cterm=NONE
 hi! link Folded SpecialComment
+hi! link Conceal texString
 hi SpellBad cterm=underline ctermfg=1
 
 syn keyword pDebug contained DEBUG Debug debug
 hi def link pDebug Error
+
+function! SynGroup()
+	let l:s = synID(line('.'), col('.'), 1)
+	echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfun

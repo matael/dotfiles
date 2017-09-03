@@ -1,0 +1,11 @@
+#!/bin/bash
+
+pathtonord="/home/matael/useful/nord-xresources/src"
+
+if [[ "$( cat ~/.last_nord )" = "light" ]]; then
+	xrdb -merge "$pathtonord/nord";
+	echo "dark" > ~/.last_nord
+else
+	xrdb -merge "$pathtonord/nord-light";
+	echo "light" > ~/.last_nord
+fi
