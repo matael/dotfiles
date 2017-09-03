@@ -31,7 +31,7 @@ git clone git@github.com:matael/dotfiles || {
 
 echo "Cloning nord theme..."
 cd "$HOME/useful"
-git clone git@github.com:git@github.com:Matael/nord-xresources || {
+git clone git@github.com:Matael/nord-xresources || {
 	echo "nord already present, updating"
 	cd "$HOME/useful/nord-xresources"
 	git pull
