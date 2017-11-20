@@ -1,0 +1,112 @@
+#! /bin/bash
+#
+# new_exp.sh
+#
+# Copyright © 2017 Mathieu Gaborit (matael) <mathieu@matael.org>
+#
+# Licensed under the "THE BEER-WARE LICENSE" (Revision 42):
+# Mathieu (matael) Gaborit wrote this file. As long as you retain this notice you
+# can do whatever you want with this stuff. If we meet some day, and you think
+# this stuff is worth it, you can buy me a beer or coffee in return
+#
+# Helps creating new experiments with always the same format.
+
+
+echo "Please enter experiment's name: "
+read user_name
+echo "Experiment's long title (default: experiment's name): "
+read user_long_title
+echo "Tags for the experiment (comma separated, Return skips): "
+read user_tags
+echo "Project to which the experiment is linked (Return skips): "
+read user_project
+echo "Experiment's description (Return skips): "
+read user_description
+
+
+NOTEBOOK_CONTENT_BASE=$(cat <<'END'
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# NAMEOFEXPERIMENT"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "collapsed": true
+   },
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
+END
+)
+
+if [[ -d $user_name ]]; then
+	echo "A folder name $user_name already exists."
+	exit 0
+elif [[ $user_name == *" "* ]]; then
+	echo "The name you entered contains spaces. Try again without."
+	exit 0
+fi
+
+NOTEBOOK_CONTENT=$(echo $NOTEBOOK_CONTENT_BASE | sed -e "s#NAMEOFEXPERIMENT#$user_long_title#")
+
+# Create directory, move into and start adding things
+mkdir $user_name
+cd $user_name
+
+# Readme
+touch README.md
+echo "---" >> README.md
+echo "short_name: $user_name" >> README.md
+echo "long_name: $user_long_title" >> README.md
+echo "date_created: $(date +'%Y-%m-%d')" >> README.md
+echo "tags: $user_tags" >> README.md
+echo "project: $user_project" >> README.md
+echo "description: $user_description" >> README.md
+echo "---" >> README.md
+
+echo $NOTEBOOK_CONTENT > "$user_name.ipynb"
+
+echo "Do you need directories in there (Returns skips)? "
+read user_directories
+if [[ "$user_directories" != "" ]]; then
+	for d in $user_directories; do
+		if [[ -d "$d" ]]; then
+			echo "Directory $d already exists. Skipping."
+		else
+			mkdir "$d"
+		fi
+	done
+fi
