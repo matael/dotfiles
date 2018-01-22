@@ -17,45 +17,6 @@ zstyle :omz:plugins:ssh-agent identities id_rsa id_rsa_gh id_rsa_golgoth
 # 1. Les alias #
 ################
 
-# Gestion du 'ls' : couleur & ne touche pas aux accents
-alias ls='ls --classify --tabsize=0 --literal --color=auto --show-control-chars --human-readable'
-
-# Demande confirmation avant d'écraser un fichier
-alias cp='cp'
-alias mv='mv'
-alias rm='rm'
-
-# Raccourcis pour 'ls'
-alias ll='ls -l'
-alias la='ls -a'
-alias lla='ls -la'
-
-# Quelques alias pratiques
-alias c='clear'
-alias less='less --quiet'
-alias s='cd ..'
-alias df='df --human-readable'
-alias du='du --human-readable'
-alias m='mutt -y'
-alias md='mkdir'
-alias rd='rmdir'
-alias upgrade='apt-get update && apt-get upgrade && apt-get clean'
-alias tmux='tmux -2'
-alias g='git'
-alias paste='nc termbin.com 9999'
-alias yolo='git commit -am "DEAL WITH IT" && git push -f origin master'
-alias :q='exit'
-alias grep='grep --color=auto'
-alias oct='octave-cli'
-alias jptr='jupyter notebook --ip=127.0.0.1'
-alias t='task'
-alias µ='mupdf'
-alias vjptr='$VIRTUAL_ENV/bin/jupyter notebook --ip=127.0.0.1'
-alias tt='t calendar; t ; t summary'
-alias meteo='curl -4 wttr.in/Stockholm'
-alias vi='vim'
-
-function ssa() { ssh-add ~/.ssh/id_rsa_$1 }
 
 
 #######################################
@@ -304,12 +265,11 @@ export WORKON_HOME=~/.virtualenvs
 source /usr/bin/virtualenvwrapper.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export PATH=$PATH:/home/matael/.gem/ruby/2.3.0/bin
+export PATH=$PATH:/home/matael/.gem/ruby/2.4.0/bin
 
 export JAVA_HOME='/usr/lib/jvm/default-runtime'
-export EC2_HOME='/usr/local/ec2/ec2-api-tools-1.7.5.1'
-export PATH=$PATH:$EC2_HOME/bin 
+alias vim=nvim
 
-export AWS_ACCESS_KEY='AKIAJRRUPW7OV3ER5UQA'
-export AWS_SECRET_KEY='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'
-export EC2_URL=https://ec2.eu-central-1.amazonaws.com
+export PLANES_SRC='/home/matael/workspace/phd/utils/PLANES/src'
+export MC_SKIN='/home/matael/.mc/lib/solarized.ini'
+export PHDDIR='/home/matael/workspace/phd'
