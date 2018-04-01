@@ -18,13 +18,14 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec "urxvt -cd /tmp"
 
 # kill focused window
 bindsym $mod+Shift+A kill
 
 # start dmenu (a program launcher)
-bindsym $mod+x exec dmenu_run
+# bindsym $mod+x exec dmenu_run
+bindsym $mod+x exec "rofi -show run"
 
 # change focus
 bindsym $mod+j focus left
@@ -49,6 +50,10 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+
+# move workspaces
+bindsym $mod+Shift+h move workspace to output right
+bindsym $mod+Shift+v move workspace to output up
 
 # split in horizontal orientation
 bindsym $mod+h split h
@@ -133,8 +138,8 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-		mode hide
-		status_command $HOME/bin/conky-i3bar
+	mode hide
+	status_command $HOME/useful/dotfiles/scripts/conky-i3bar
 }
 
 # Make the currently focused window a scratchpad
@@ -144,7 +149,8 @@ bindsym $mod+Shift+exclam move scratchpad
 bindsym $mod+exclam scratchpad show
 
 # taille de bordure pour les nouvelles fenêtres
-new_window 1pixel
+new_window pixel 2
+hide_edge_borders smart
 
 # dtags
 
@@ -161,32 +167,93 @@ bindsym $mod+F2 workspace irc
 bindsym $mod+Shift+F2 move container to workspace irc
 
 # Workspace octave
-bindsym $mod+F3 workspace oct:fig
-bindsym $mod+Shift+F3 move container to workspace oct:fig
-assign [title="^Figure"] oct:fig
+bindsym $mod+F3 workspace oct
+bindsym $mod+Shift+F3 move container to workspace oct
+assign [title="^Figure"] oct
+assign [title="Gnuplot"] oct
+
+# Workspace zotero
+bindsym $mod+F4 workspace zotero
+bindsym $mod+Shift+F4 move container to workspace zotero
+assign [title="^Zotero$"] zotero
+
+# Workspace Comm
+bindsym $mod+F5 workspace com
+bindsym $mod+Shift+F5 move container to workspace com
+assign [class="^skype$"] com
+assign [class="^gnome-ring$"] com
+
+# Workspace cluster management
+bindsym $mod+F12 workspace cluster
+bindsym $mod+Shift+F12 move container to workspace cluster
+
+# Workspace music
+bindsym $mod+F11 workspace music
+bindsym $mod+Shift+F11 move container to workspace music
+assign [class="^Spotify$"] music
+
 
 # screen assign
-workspace www output HDMI-0
-workspace irc output VGA-0
-workspace oct:fig output VGA-0
+workspace www output DP-1
+workspace irc output eDP-1
+workspace oct output eDP-1
 
 # ncmpcpp
-bindsym $mod+n exec "urxvt -geometry 200x70 -title floatncmpcpp -e ncmpcpp"
-bindsym $mod+Control+space exec "(echo 'pause'; echo 'close') | nc 127.0.0.1 6600"
-bindsym $mod+Control+n exec "(echo 'next'; echo 'close') | nc 127.0.0.1 6600"
-bindsym $mod+Control+p exec "(echo 'previous'; echo 'close') | nc 127.0.0.1 6600"
+bindsym $mod+n exec "urxvt -geometry 130x40 -title floatncmpcpp -e ncmpcpp"
+bindsym XF86AudioPlay exec "(echo 'pause'; echo 'close') | nc 127.0.0.1 6600"
+bindsym $mod+control+space exec "(echo 'pause'; echo 'close') | nc 127.0.0.1 6600"
+bindsym XF86AudioNext exec "(echo 'next'; echo 'close') | nc 127.0.0.1 6600"
+bindsym XF86AudioPrev exec "(echo 'previous'; echo 'close') | nc 127.0.0.1 6600"
 
 # volume
 bindsym XF86AudioLowerVolume exec "amixer -q sset Master 3dB-"
 bindsym XF86AudioRaiseVolume exec "amixer -q sset Master 3dB+"
 
-bindsym $mod+space exec "urxvt -title 'quickterm'"
+# arandr
+# bindsym Menu exec "bash /home/matael/.screenlayout/kth.sh"
+bindsym $mod+twosuperior exec "bash /home/matael/.screenlayout/kth.sh"
+# bindsym $mod+twosuperior exec "bash /home/matael/.screenlayout/uef.sh"
+
+
+# backlight
+exec "xbacklight -set 50"
+bindsym XF86MonBrightnessDown exec "light -U 3"
+bindsym XF86MonBrightnessUp exec "light -A 3"
+
+bindsym $mod+space exec "urxvt -title 'quickterm' -cd /tmp"
 
 # apps at start
-exec .screenlayout/dual.sh&
+exec useful/dotfiles/scripts/redshift.sh&
+exec useful/wallpaper.sh&
+exec useful/dotfiles/scripts/cedar_tray.sh&
+exec "libinput-gestures-setup start"
+
 for_window [title="floatncmpcpp"] floating enable
 for_window [title="quickterm"] floating enable
 for_window [class="MPlayer"] floating enable
 for_window [title="^Figure"] floating enable
+for_window [class="MuPDF"] floating enable
+for_window [class="imv"] floating enable
+for_window [title="Gnuplot"] floating enable
+for_window [class="Gnuplot"] floating enable
 
-bindsym XF86Tools exec 'xmacroplay ~/.macros/ctrlw'
+set $Locker i3lock -c 000000  -d && sleep 1
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+	bindsym l exec --no-startup-id $Locker, mode "default"
+		bindsym e exec --no-startup-id i3-msg exit, mode "default"
+		bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+		bindsym r exec --no-startup-id systemctl reboot, mode "default"
+		bindsym Shift+s exec --no-startup-id poweroff -i, mode "default"  
+
+		# back to normal: Enter or Escape
+		bindsym Return mode "default"
+		bindsym Escape mode "default"
+}
+
+bindsym $mod+Delete mode "$mode_system"
+
+gaps inner 10
+gaps outer 0
+smart_gaps on
