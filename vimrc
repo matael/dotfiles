@@ -2,99 +2,77 @@ set nocompatible " improved !
 
 let g:python_host_prog = '/bin/python2'
 
-" Vundle {{{1
-filetype off " required
+" Vim-Plug {{{1
+" Auto install plug if it's not present
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" Vundle dir
-set rtp+=~/.vim/bundle/Vundle.vim
-" init
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-" Plugins {{{2
+Plug 'arcticicestudio/nord-vim'
+let g:nord_comment_brightness = 12
+let g:nord_uniform_status_lines = 1
+let g:nord_italic_comments = 1
+let g:nord_italic = 1
+let g:nord_underline = 1
+let g:nord_cursor_line_number_background = 1
 
-" vundle
-Plugin 'gmarik/Vundle.vim'
-" vim-fugitive
-Plugin 'tpope/vim-fugitive'
-" snipMate
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-" airline
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-let g:airline_theme = 'solarized'
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+let g:airline_theme = 'nord'
 let g:airline#extensions#tabline#enabled = 1
-" tcomment
-Plugin 'tomtom/tcomment_vim'
-" nerdtree
-Plugin 'scrooloose/nerdtree'
-" nerdtree git
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-" CtrlP
-Plugin 'ctrlpvim/ctrlp.vim'
+
+Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_cmd = 'CtrlPMixed'
-" trailing-whitespaces
-Plugin 'bronson/vim-trailing-whitespace'
-" vim surround
-Plugin 'tpope/vim-surround'
-" Dispatch
-Plugin 'tpope/vim-dispatch'
-" Solarized
-" Plugin 'altercation/vim-colors-solarized.git'
-Plugin 'arcticicestudio/nord-vim'
-" YCM
-Plugin 'Valloric/YouCompleteMe'
+
+Plug 'tpope/vim-dispatch'
+Plug 'rhysd/unite.vim'
+Plug 'matze/vim-move'
+
+Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin' | Plug 'jistr/vim-nerdtree-tabs'
+Plug 'mbbill/undotree'
+Plug 'majutsushi/tagbar'
+Plug 'bronson/vim-trailing-whitespace'
+
+Plug 'tpope/vim-surround'
+Plug 'Raimondi/delimitMate'
+Plug 'tomtom/tcomment_vim'
+
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'Matael/vim-template'
+
+Plug 'rhysd/vim-grammarous', {'for': ['tex', 'rst', 'markdown', 'latex']}
+let g:grammarous#use_vim_spelllang = 1
+let g:grammarous#show_first_error = 1
+
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 let g:ycm_global_ycm_extra_conf = '~/useful/dotfiles/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 
-Plugin 'Matael/vim-template'
-" undotree
-Plugin 'mbbill/undotree'
-Plugin 'Matael/tex-conceal.vim'
-Plugin 'matze/vim-tex-fold'
+Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
+let g:signify_vcs_list = ['git']
+
+Plug 'Konfekt/FastFold' | Plug 'tmhedberg/SimpylFold'
+Plug 'djoshea/vim-matlab-fold', {'for': 'matlab'}
+Plug 'Matael/tex-conceal.vim', {'for': ['tex', 'latex']}
+Plug 'matze/vim-tex-fold', {'for': ['tex', 'latex']}
 let g:tex_fold_additional_envs = ['tikzpicture', 'tabular']
-" Plugin 'klen/python-mode'
-" let g:pymode_lint_ignore='E501,E225,E226,E228'
-" let g:pymode_options_max_line_length=160
-" let g:pymode_lint_cwindow = 1
-"
-" Plugin 'janko-m/vim-test'
-" let test#python#runner='nose'
-" let test#strategy='dispatch'
 
-Plugin 'majutsushi/tagbar'
-" Plugin 'tpope/vim-sleuth'
-" delimitMate
-Plugin 'Raimondi/delimitMate'
-" FreeFEM++
-Plugin 'freefem.vim'
-Plugin 'cmake.vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'nvie/vim-flake8'
+
 " vim-tweaks
-Plugin 'Matael/vim-tweaks'
+Plug 'Matael/vim-tweaks'
 
-Plugin 'mikewest/vimroom'
-
-Plugin 'rhysd/vim-grammarous'
-Plugin 'rhysd/unite.vim'
-Plugin 'matze/vim-move'
-
-Plugin 'voxpupuli/vim-puppet'
-
-Plugin 'jistr/vim-nerdtree-tabs'
-
-Plugin 'nvie/vim-flake8'
-
-Plugin 'djoshea/vim-matlab-fold'
-
+call plug#end()
 " }}}
-
-call vundle#end()
 
 " GENERAL {{{1
 
 let mapleader = "," 		" leader
-syntax on					" syntax
-filetype plugin indent on 	" filetype stuff
 set fillchars=vert:│    " that's a vertical box-drawing character
 set ts=2 					" tabs
 set sw=2 					" tabs
@@ -113,7 +91,9 @@ set nu 						" general numbering
 set undofile
 set undodir=~/.vim/undodir
 set mouse=
+set nojoinspaces
 set encoding=utf-8
+set spelllang=en_gb
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
 aug QFClose
@@ -124,25 +104,14 @@ aug END
 
 " Binding file extensions and types {{{1
 
-" Processing
-au BufNewFile,BufRead *.pde setf processing
-" Arduino (>v1.0.0)
 au BufNewFile,BufRead *.ino setf arduino
-" Markdown
-au BufNewFile,BufRead *.mkd setf mkd
-" latex
 au BufNewFile,BufRead *.tex set ft=tex
-" SBT/Scala integration
-set errorformat=%E\ %#[error]\ %#%f:%l:\ %m,%-Z\ %#[error]\ %p^,%-C\ %#[error]\ %m
-set errorformat+=,%W\ %#[warn]\ %#%f:%l:\ %m,%-Z\ %#[warn]\ %p^,%-C\ %#[warn]\ %m
-set errorformat+=,%-G%.%#
-noremap <silent> <Leader>ff :cf /tmp/sbt.quickfix<CR>
-noremap <silent> <Leader>fn :cn<CR>
-
 
 
 " MAPPINGS {{{1
 
+" awesome leader trick
+map <space> <leader>
 " never show help. never, ever.
 nnoremap <F1> <nop>
 inoremap <F1> <nop>
@@ -155,8 +124,8 @@ vnoremap K <nop>
 " invert lines
 noremap <Leader>i ddp
 
-" Remap jk to esc
-inoremap jk <Esc>
+" Remap hj to esc
+inoremap hj <Esc>
 
 " NERDTree
 inoremap <F3> <Esc>:NERDTreeTabsToggle<cr>
@@ -166,6 +135,7 @@ nnoremap <F5> :UndotreeToggle<cr>
 inoremap <F7> <Esc>:w<cr>:make<cr><cr>
 nnoremap <F7> :w<cr>:make<cr><cr>
 nnoremap <F9> :YcmCompleter FixIt<CR>
+nnoremap <F8> <Plug>(grammarous-fixit)<CR>
 inoremap <F10> <Esc>:TagbarToggle<cr>
 nnoremap <F10> :TagbarToggle<cr>
 
@@ -181,6 +151,7 @@ noremap <leader>w V:FixWhitespace<cr>
 " let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsExpandTrigger="<C-z>"
 let g:UltiSnipsJumpForwardTrigger="<C-b>"
+
 
 " Arrow keys {{{1
 
@@ -210,23 +181,18 @@ nnoremap <silent><Down> gt
 
 " Colors {{{1
 
-set t_Co=256
-" colorscheme shblah
-syntax enable
-set background=dark
+set termguicolors
 colorscheme nord
-" colorscheme jellybeans
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+set background=dark
 
-
-
-"hi SignColumn guifg=#00aaff guibg=#272822 guisp=NONE gui=NONE ctermfg=39 ctermbg=234 cterm=NONE
 hi Error guifg=#ffffcd guibg=#ff0000 guisp=#306b8f gui=NONE ctermfg=230 ctermbg=196 cterm=NONE
 hi Todo guifg=#ffffcd guibg=#00a2ff guisp=#306b8f gui=NONE ctermfg=230 ctermbg=38 cterm=NONE
-hi! link Folded SpecialComment
+hi! link Folded Operator
+hi! link FoldColumn Operator
 hi! link Conceal texString
-hi SpellBad cterm=underline ctermfg=1
 
-syn keyword pDebug contained DEBUG Debug debug
+syn keyword pDebug contained DEBUG
 hi def link pDebug Error
 
 function! SynGroup()
