@@ -31,9 +31,11 @@ Plug 'tpope/vim-dispatch'
 Plug 'rhysd/unite.vim'
 Plug 'matze/vim-move'
 
-Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin' | Plug 'jistr/vim-nerdtree-tabs'
-Plug 'mbbill/undotree'
-Plug 'majutsushi/tagbar'
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeTabsToggle'}
+Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeTabsToggle'}
+Plug 'jistr/vim-nerdtree-tabs', {'on': 'NERDTreeTabsToggle'}
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 Plug 'bronson/vim-trailing-whitespace'
 
 Plug 'tpope/vim-surround'
