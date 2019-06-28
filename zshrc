@@ -11,6 +11,7 @@ export EDITOR="nvim"
 [[ -s "$DOTFILES/zsh/npm.zsh" ]] && source "$DOTFILES/zsh/npm.zsh"
 
 export WORKON_HOME=~/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
 export PLANES_SRC='/home/matael/workspace/phd/utils/PLANES/src'
 export MC_SKIN='/home/matael/.mc/lib/solarized.ini'
 export PHDDIR='/home/matael/workspace/phd'
