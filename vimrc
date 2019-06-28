@@ -12,7 +12,8 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'arcticicestudio/nord-vim'
+" Plug 'arcticicestudio/nord-vim'
+Plug 'matael/nord-vim'
 let g:nord_comment_brightness = 12
 let g:nord_uniform_status_lines = 1
 let g:nord_italic_comments = 1
@@ -34,8 +35,8 @@ Plug 'matze/vim-move'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeTabsToggle'}
 Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeTabsToggle'}
 Plug 'jistr/vim-nerdtree-tabs', {'on': 'NERDTreeTabsToggle'}
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'bronson/vim-trailing-whitespace'
 
 Plug 'tpope/vim-surround'
@@ -62,9 +63,11 @@ Plug 'djoshea/vim-matlab-fold', {'for': 'matlab'}
 Plug 'Matael/tex-conceal.vim', {'for': ['tex', 'latex']}
 Plug 'matze/vim-tex-fold', {'for': ['tex', 'latex']}
 let g:tex_fold_additional_envs = ['tikzpicture', 'tabular']
+Plug 'holomorph/vim-freefem', {'for': ['edp']}
+Plug 'sirtaj/vim-openscad', {'for': ['scad']}
 
 Plug 'sheerun/vim-polyglot'
-Plug 'nvie/vim-flake8'
+Plug 'nvie/vim-flake8', {'for': 'python', 'on': 'Flake8'}
 
 " vim-tweaks
 Plug 'Matael/vim-tweaks'
@@ -152,7 +155,7 @@ noremap <leader>w V:FixWhitespace<cr>
 " ultisnips
 " let g:UltiSnipsExpandTrigger="<C-j>"
 let g:UltiSnipsExpandTrigger="<C-z>"
-let g:UltiSnipsJumpForwardTrigger="<C-b>"
+let g:UltiSnipsJumpForwardTrigger="<C-s>"
 
 
 " Arrow keys {{{1
@@ -183,7 +186,7 @@ nnoremap <silent><Down> gt
 
 " Colors {{{1
 
-set termguicolors
+" set termguicolors
 colorscheme nord
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set background=dark
