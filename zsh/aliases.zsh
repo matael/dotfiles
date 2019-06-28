@@ -25,7 +25,6 @@ alias :q='exit'
 alias oct='octave-cli'
 alias vi='nvim'
 alias vim='nvim'
-alias rokcell='wine ~/.wine/drive_c/Program\ Files/Matelys/RokCell/RokCell.exe'
 
 # alias-like helper functions
 function ssa() { ssh-add ~/.ssh/id_rsa_$1 }
