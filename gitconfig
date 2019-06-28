@@ -36,3 +36,5 @@
 	rebase = true
 [core]
 	editor = nvim
+[credential]
+	helper = gnome-keyring
