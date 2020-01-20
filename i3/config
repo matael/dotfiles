@@ -56,6 +56,10 @@ bindsym $mod+Shift+Right move right
 # move workspaces
 bindsym $mod+Shift+h move workspace to output right
 bindsym $mod+Shift+v move workspace to output up
+bindsym $mod+Control+Right move workspace to output right
+bindsym $mod+Control+Left move workspace to output left
+bindsym $mod+Control+Up move workspace to output up
+bindsym $mod+Control+Down move workspace to output down
 
 # split in horizontal orientation
 bindsym $mod+h split h
@@ -174,6 +178,7 @@ bindsym $mod+F3 workspace fig
 bindsym $mod+Shift+F3 move container to workspace fig
 assign [title="^Figure"] fig
 assign [title="Gnuplot"] fig
+assign [title="FreeFem"] fig
 
 # Workspace zotero
 bindsym $mod+F4 workspace zotero
@@ -204,12 +209,16 @@ bindsym XF86AudioStop exec  "qdbus org.mpris.MediaPlayer2.spotify /org/mpris/Med
 # volume
 # bindsym XF86AudioLowerVolume exec "amixer -q sset Master 3dB-"
 # bindsym XF86AudioRaiseVolume exec "amixer -q sset Master 3dB+"
-bindsym XF86AudioLowerVolume exec "amixer -D pulse sset Master 5%-"
-bindsym XF86AudioRaiseVolume exec "amixer -D pulse sset Master 5%+"
+# bindsym XF86AudioLowerVolume exec "amixer -D pulse sset Master 5%-"
+# bindsym XF86AudioRaiseVolume exec "amixer -D pulse sset Master 5%+"
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2%; exec pactl set-sink-mute @DEFAULT_SINK@ 0
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2%; exec pactl set-sink-mute @DEFAULT_SINK@ 0
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
 
 # arandr
 # bindsym Menu exec "bash /home/matael/.screenlayout/kth.sh"
-bindsym $mod+twosuperior exec "bash /home/matael/.screenlayout/triple_laum.sh"
+bindsym $mod+twosuperior exec "bash /home/matael/.screenlayout/kth.sh"
 bindsym $mod+Shift+twosuperior exec "bash /home/matael/.screenlayout/home.sh"
 bindsym $mod+Shift+Ctrl+twosuperior exec "bash /home/matael/.screenlayout/regular.sh"
 
@@ -241,6 +250,7 @@ for_window [class="MuPDF"] floating enable
 for_window [class="imv"] floating enable
 for_window [title="Gnuplot"] floating enable
 for_window [class="Gnuplot"] floating enable
+for_window [window_role="gimp-toolbox-color-dialog"] floating enable
 
 set $Locker i3lock -c 000000  -d && sleep 1
 
