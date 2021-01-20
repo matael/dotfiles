@@ -1,20 +1,19 @@
 set nocompatible " improved !
 
-let g:python_host_prog = '/bin/python2'
-
+let g:python3_host_prog = '/usr/bin/python3.9'
+"
 " Vim-Plug {{{1
 " Auto install plug if it's not present
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+	silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 
 " Plug 'arcticicestudio/nord-vim'
 Plug 'matael/nord-vim'
-let g:nord_comment_brightness = 12
+let g:nord_comment_brightness = 18
 let g:nord_uniform_status_lines = 1
 let g:nord_italic_comments = 1
 let g:nord_italic = 1
@@ -35,7 +34,7 @@ Plug 'matze/vim-move'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeTabsToggle'}
 Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeTabsToggle'}
 Plug 'jistr/vim-nerdtree-tabs', {'on': 'NERDTreeTabsToggle'}
-Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+Plug 'matael/tagbar', {'on': 'TagbarToggle'}
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'bronson/vim-trailing-whitespace'
 
@@ -46,6 +45,8 @@ Plug 'tomtom/tcomment_vim'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'Matael/vim-template'
 
+Plug 'junegunn/goyo.vim', {'for': ['tex', 'rst', 'markdown', 'latex']}
+let g:goyo_width = 90
 Plug 'rhysd/vim-grammarous', {'for': ['tex', 'rst', 'markdown', 'latex']}
 let g:grammarous#use_vim_spelllang = 1
 let g:grammarous#show_first_error = 1
@@ -61,6 +62,8 @@ let g:signify_vcs_list = ['git']
 Plug 'Konfekt/FastFold' | Plug 'tmhedberg/SimpylFold'
 Plug 'djoshea/vim-matlab-fold', {'for': 'matlab'}
 Plug 'Matael/tex-conceal.vim', {'for': ['tex', 'latex']}
+set conceallevel=2
+let g:tex_conceal="abdgm"
 Plug 'matze/vim-tex-fold', {'for': ['tex', 'latex']}
 let g:tex_fold_additional_envs = ['tikzpicture', 'tabular']
 Plug 'holomorph/vim-freefem', {'for': ['edp']}
@@ -68,7 +71,15 @@ Plug 'sirtaj/vim-openscad', {'for': ['scad']}
 
 Plug 'sheerun/vim-polyglot'
 Plug 'nvie/vim-flake8', {'for': 'python', 'on': 'Flake8'}
+Plug 'kkoomen/vim-doge', {'for': ['python', 'cpp']}
+let g:doge_doc_standard_python = 'numpy'
+let g:doge_mapping_comment_jump_forward = '<C-s>'
+let g:doge_mapping_comment_jump_backward = '<Shift><C-s>'
 
+Plug 'jupyter-vim/jupyter-vim'
+let g:jupyter_mapkeys = 0
+
+Plug 'luishdez/vim-less', {'for': ['less']}
 " vim-tweaks
 Plug 'Matael/vim-tweaks'
 
@@ -77,7 +88,8 @@ call plug#end()
 
 " GENERAL {{{1
 
-let mapleader = "," 		" leader
+let mapleader = "<space>" 		" leader
+let maplocalleader = "!" 		" leader
 set fillchars=vert:│    " that's a vertical box-drawing character
 set ts=2 					" tabs
 set sw=2 					" tabs
@@ -157,6 +169,17 @@ noremap <leader>w V:FixWhitespace<cr>
 let g:UltiSnipsExpandTrigger="<C-z>"
 let g:UltiSnipsJumpForwardTrigger="<C-s>"
 
+" jupyter-vim
+
+" Change to directory of current file
+nnoremap <buffer> <silent> <localleader>h :JupyterCd %:p:h<CR>
+
+" Send a selection of lines
+nnoremap <buffer> <silent> <localleader>; :JupyterSendCell<CR>
+nnoremap <buffer> <silent> <localleader>, :JupyterSendRange<CR>
+vmap     <buffer> <silent> <localleader>: <Plug>JupyterRunVisual
+
+
 
 " Arrow keys {{{1
 
@@ -197,8 +220,15 @@ hi! link Folded Operator
 hi! link FoldColumn Operator
 hi! link Conceal texString
 
-syn keyword pDebug contained DEBUG
-hi def link pDebug Error
+augroup vimrc_todo
+    au!
+    au Syntax * syn match MyTodo /\v<(FIXME|fixme|FixMe|Fixme|NOTE|TODO|Todo|todo):?/
+          \ containedin=.*Comment,vimCommentTitle
+    au Syntax * syn match MyFlag /\v<(DEBUG|Debug|debug|important|IMPORTANT|Important):?/
+          \ containedin=.*Comment,vimCommentTitle
+augroup END
+hi def link MyTodo Todo
+hi def link MyFlag Error
 
 function! SynGroup()
 	let l:s = synID(line('.'), col('.'), 1)
