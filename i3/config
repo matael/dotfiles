@@ -11,6 +11,9 @@
 
 set $mod Mod4
 
+set $float floating enable
+set $unfloat floating disable
+
 # font for window titles. ISO 10646 = Unicode
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 font pango:Proof Inconsolata 10
@@ -155,8 +158,7 @@ bindsym $mod+Shift+exclam move scratchpad
 bindsym $mod+exclam scratchpad show
 
 # taille de bordure pour les nouvelles fenêtres
-new_window pixel 2
-hide_edge_borders smart
+new_window pixel 1
 
 # dtags
 
@@ -188,7 +190,6 @@ assign [title="^Zotero$"] zotero
 # Workspace todoist
 bindsym $mod+F12 workspace todo
 bindsym $mod+Shift+F12 move container to workspace todo
-assign [class="todoist.com"] todo
 
 # Workspace music
 bindsym $mod+F11 workspace music
@@ -205,6 +206,8 @@ bindsym XF86AudioPlay exec "qdbus org.mpris.MediaPlayer2.spotify /org/mpris/Medi
 bindsym XF86AudioNext exec  "qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
 bindsym XF86AudioPrev exec  "qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
 bindsym XF86AudioStop exec  "qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+bindsym XF86Launch6 exec  "qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+bindsym XF86Launch5 exec  "qdbus org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
 
 # volume
 # bindsym XF86AudioLowerVolume exec "amixer -q sset Master 3dB-"
@@ -217,8 +220,8 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 
 # arandr
-# bindsym Menu exec "bash /home/matael/.screenlayout/kth.sh"
 bindsym $mod+twosuperior exec "bash /home/matael/.screenlayout/kth.sh"
+# bindsym $mod+twosuperior exec "bash /home/matael/.screenlayout/laum_visit.sh"
 bindsym $mod+Shift+twosuperior exec "bash /home/matael/.screenlayout/home.sh"
 bindsym $mod+Shift+Ctrl+twosuperior exec "bash /home/matael/.screenlayout/regular.sh"
 
@@ -242,15 +245,14 @@ exec useful/wallpaper.sh&
 exec useful/dotfiles/scripts/cedar_tray.sh&
 exec "libinput-gestures-setup start"
 
-for_window [title="floatncmpcpp"] floating enable
-for_window [title="quickterm"] floating enable
-for_window [class="MPlayer"] floating enable
-for_window [title="^Figure"] floating enable
-for_window [class="MuPDF"] floating enable
-for_window [class="imv"] floating enable
-for_window [title="Gnuplot"] floating enable
-for_window [class="Gnuplot"] floating enable
-for_window [window_role="gimp-toolbox-color-dialog"] floating enable
+for_window [title="floatncmpcpp"] $float
+for_window [title="quickterm"] $float
+for_window [class="MPlayer"] $float
+for_window [title="^Figure"] $float
+for_window [class="imv"] $float
+for_window [title="Gnuplot"] $float
+for_window [class="Gnuplot"] $float
+for_window [window_role="gimp-toolbox-color-dialog"] $float
 
 set $Locker i3lock -c 000000  -d && sleep 1
 
@@ -268,6 +270,8 @@ mode "$mode_system" {
 }
 
 bindsym $mod+Delete mode "$mode_system"
+
+bindsym --release XF86Launch9 exec --no-startup-id xdotool key --clearmodifiers alt+q Return
 
 # gaps inner 5
 gaps outer 0
