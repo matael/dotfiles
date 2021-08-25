@@ -1,7 +1,7 @@
 [user]
 	name = Mathieu (matael) Gaborit
 	email = mat.gaborit@gmx.com
-	signingkey = 49A325BE
+	signingkey = 0x856D8A2D6F794FBC2CDD125B9AE09B2A9506E10E
 [color]
 	status = auto
 	branch = auto
@@ -28,6 +28,7 @@
 	graph = log --color --graph --pretty=format:\"%h | %ad | %an | %s%d\" --date=short
 [push]
 	default = matching
+	followTags = true
 # [commit]
 # 	gpgsign = True
 # [gpg]
@@ -37,4 +38,8 @@
 [core]
 	editor = nvim
 [credential]
-	helper = gnome-keyring
+	helper = cache
+[init]
+	defaultBranch = master
+[gpg]
+	program = gpg2
